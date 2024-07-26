@@ -30,6 +30,11 @@ http.createServer(function(req, res) {
     }
   }
   var uri = url.parse(req.url).pathname;
+    if (path.normalize(decodeURI(uri)) !== decodeURI(uri)) {
+        res.statusCode = 403;
+        res.end();
+        return;
+    }
   var filename = path.join(process.cwd(), "public/", uri);
 
   fs.exists(filename, function(exists) {
